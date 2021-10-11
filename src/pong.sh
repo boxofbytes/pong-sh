@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##################################################
-# 	   Pong shell game by ByteBox	 	 #      
+# 			Pong shell game by ByteBox       	 #      
 ##################################################
 
 # variables
@@ -18,7 +18,7 @@ BALL_X_MOV=1
 BALL_Y_MOV=0
 
 # clear screen
-clear
+# clear
 
 # input stuff
 stty -icanon -echo
@@ -46,16 +46,19 @@ do
 	done
 
 	# read one character
-	read -n1 -t 0.1;
+	read -n1 -t 0.01;
 
 	# input control stuff
-	if [ "$REPLY" = "s" ]; then
+	if [ "$REPLY" = "s" ] && [ $PADDLE_1_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_1_HEIGHT += 1 ))
-	elif [ "$REPLY" = "w" ]; then
+	fi
+	if [ "$REPLY" = "w" ] && [ $PADDLE_1_HEIGHT -ge 1 ]; then
 		 (( PADDLE_1_HEIGHT -= 1 ))
-	elif [ "$REPLY" = "e" ]; then
+	fi
+	if [ "$REPLY" = "e" ] && [ $PADDLE_2_HEIGHT -ge 1 ]; then
 		 (( PADDLE_2_HEIGHT -= 1 ))
-	elif [ "$REPLY" = "d" ]; then
+	fi
+	if [ "$REPLY" = "d" ] && [ $PADDLE_2_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_2_HEIGHT += 1 ))
 	fi
 
@@ -70,7 +73,7 @@ do
 	elif [ $BALL_X_POS -le 1 ]; then 
 		break
 	fi
-	
+
 	if [ $BALL_Y_POS -ge 25 ]; then 
 		BALL_Y_MOV=0
 	elif [ $BALL_Y_POS -le 1 ]; then 
