@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##################################################
-# 			Pong shell game by ByteBox       	       #      
+# 	   Pong shell game by ByteBox	 	 #      
 ##################################################
 
 # variables
