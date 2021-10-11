@@ -4,4 +4,4 @@
 
 ![Screenshot](./examples/gameplay.png)
 # running
-To run the game, just copy the shell script and run it with `sh script.sh`. There arent any dependencies required at the moment.
+To run the game, just copy the shell script and run it in a terminal with `sh script.sh`. There arent any dependencies required at the moment.
