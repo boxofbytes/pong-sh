@@ -19,7 +19,6 @@ BALL_Y_POS=12
 BALL_X_MOV=1
 BALL_Y_MOV=0
 
-
 ############################################################################################################################################
 # functions
 
@@ -41,7 +40,7 @@ fill_background () {
 
 # function for processing the given input
 input_control () {
-	if [ "$REPLY" = "s" ] && [ $PADDLE_1_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
+	if [ "$REPLY" = "s" ] && [ $PADDLE_1_HEIGHT -le $((25 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_1_HEIGHT += 1 ))
 	fi
 	if [ "$REPLY" = "w" ] && [ $PADDLE_1_HEIGHT -ge 1 ]; then
@@ -50,7 +49,7 @@ input_control () {
 	if [ "$REPLY" = "e" ] && [ $PADDLE_2_HEIGHT -ge 1 ]; then
 		 (( PADDLE_2_HEIGHT -= 1 ))
 	fi
-	if [ "$REPLY" = "d" ] && [ $PADDLE_2_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
+	if [ "$REPLY" = "d" ] && [ $PADDLE_2_HEIGHT -le $((25 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_2_HEIGHT += 1 ))
 	fi
 
@@ -103,7 +102,9 @@ print_paddles () {
 			# put paddle character
 			printf "%c" "$1"
 		done
-	printf "\n"
+		if  [ $y -lt 10 ]; then
+			printf "\n"
+		fi
 	done
 
 	printf "\033[%d;78f" "$PADDLE_2_HEIGHT"
