@@ -19,6 +19,7 @@ BALL_Y_POS=12
 BALL_X_MOV=1
 BALL_Y_MOV=0
 
+
 ############################################################################################################################################
 # functions
 
@@ -32,13 +33,15 @@ fill_background () {
 			# put background character
 			printf "%c" "$BACKGROUND_CHARACTER"
 		done
-		printf "\n"
+		if  [ $y -lt 25 ]; then
+			printf "\n"
+		fi
 	done	
 }
 
 # function for processing the given input
 input_control () {
-	if [ "$REPLY" = "s" ] && [ $PADDLE_1_HEIGHT -le $((25 - PADDLE_HEIGHT)) ]; then
+	if [ "$REPLY" = "s" ] && [ $PADDLE_1_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_1_HEIGHT += 1 ))
 	fi
 	if [ "$REPLY" = "w" ] && [ $PADDLE_1_HEIGHT -ge 1 ]; then
@@ -47,7 +50,7 @@ input_control () {
 	if [ "$REPLY" = "e" ] && [ $PADDLE_2_HEIGHT -ge 1 ]; then
 		 (( PADDLE_2_HEIGHT -= 1 ))
 	fi
-	if [ "$REPLY" = "d" ] && [ $PADDLE_2_HEIGHT -le $((25 - PADDLE_HEIGHT)) ]; then
+	if [ "$REPLY" = "d" ] && [ $PADDLE_2_HEIGHT -le $((24 - PADDLE_HEIGHT)) ]; then
 		 (( PADDLE_2_HEIGHT += 1 ))
 	fi
 
@@ -57,13 +60,9 @@ input_control () {
 update_ball_direction () {
 	if [ $BALL_X_POS -ge $(( 80 - PADDLE_WIDTH )) ] && [ $BALL_Y_POS -ge $PADDLE_2_HEIGHT ] && [ $BALL_Y_POS -le $(( PADDLE_2_HEIGHT + PADDLE_HEIGHT )) ]; then
 		BALL_X_MOV=0
-	elif [ $BALL_X_POS -ge 80 ]; then 
-		break
 	fi
 	if [ $BALL_X_POS -le $(( 1 + PADDLE_WIDTH )) ] && [ $BALL_Y_POS -ge $PADDLE_1_HEIGHT ] && [ $BALL_Y_POS -le $(( PADDLE_1_HEIGHT + PADDLE_HEIGHT )) ]; then
 		BALL_X_MOV=1
-	elif [ $BALL_X_POS -le 1 ]; then 
-		break
 	fi
 
 	if [ $BALL_Y_POS -ge 25 ]; then 
@@ -144,9 +143,19 @@ do
 	print_paddles $BACKGROUND_CHARACTER
 	input_control
 	update_ball_direction
+	
+	# check if ball is out of bounds
+	if [ $BALL_X_POS -ge 80 ]; then 
+		break
+	fi
+	if [ $BALL_X_POS -le 1 ]; then 
+		break
+	fi
+	
 	update_ball_position
 done
 
+printf "\033[26;0f"
 printf "Game over!\n" 
-stty -canon -echo
+stty icanon echo
 ############################################################################################################################################
